@@ -158,7 +158,7 @@ async def callbacks(c:CallbackQuery):
             await c.message.answer("برای تعیین فرمانده بنویس: /commander نام فرمانده")
 
         elif d=="war":
-            b=InlineKeyboardBuilder(); b.button(text="⚔️ اعلان جنگ",callback_data="war:declare"); b.button(text="🕊️ صلح","war:peace"); b.button(text="🌍 کشورها","countries"); b.adjust(1)
+            b=InlineKeyboardBuilder(); b.button(text="⚔️ اعلان جنگ",callback_data="war:declare"); b.button(text="🕊️ صلح",callback_data="war:peace"); b.button(text="🌍 کشورها","countries"); b.adjust(1)
             await c.message.edit_text("⚔️ <b>جنگ و دیپلماسی</b>\nبرای هدف از دستور /war استفاده کن.",reply_markup=b.as_markup(),parse_mode="HTML")
 
         elif d=="statement": await c.message.answer("📜 /statement متن بیانیه")
