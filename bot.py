@@ -23,7 +23,7 @@ Session = async_sessionmaker(engine, expire_on_commit=False)
 class Base(DeclarativeBase): pass
 
 class Player(Base):
-    __tablename__="players"
+    tablename="players"
     id: Mapped[int]=mapped_column(primary_key=True)
     tg: Mapped[int]=mapped_column(BigInteger,unique=True,index=True)
     username: Mapped[str|None]=mapped_column(String(100))
@@ -52,14 +52,14 @@ class Player(Base):
     last_income: Mapped[datetime]=mapped_column(DateTime,default=lambda:datetime.now(timezone.utc))
 
 class Alliance(Base):
-    __tablename__="alliances"
+    tablename="alliances"
     id: Mapped[int]=mapped_column(primary_key=True)
     name: Mapped[str]=mapped_column(String(100),unique=True)
     owner: Mapped[int]=mapped_column(BigInteger)
     friendly: Mapped[bool]=mapped_column(Boolean,default=False)
 
 class War(Base):
-    __tablename__="wars"
+    tablename="wars"
     id: Mapped[int]=mapped_column(primary_key=True)
     attacker: Mapped[int]=mapped_column(BigInteger)
     defender: Mapped[int]=mapped_column(BigInteger)
@@ -67,7 +67,7 @@ class War(Base):
     created: Mapped[datetime]=mapped_column(DateTime,default=lambda:datetime.now(timezone.utc))
 
 class Loan(Base):
-    __tablename__="loans"
+    tablename="loans"
     id: Mapped[int]=mapped_column(primary_key=True)
     borrower: Mapped[int]=mapped_column(BigInteger)
     lender: Mapped[int]=mapped_column(BigInteger,default=0)
@@ -76,7 +76,7 @@ class Loan(Base):
     status: Mapped[str]=mapped_column(String(20),default="active")
 
 class Trade(Base):
-    __tablename__="trades"
+    tablename="trades"
     id: Mapped[int]=mapped_column(primary_key=True)
     seller: Mapped[int]=mapped_column(BigInteger)
     buyer: Mapped[int]=mapped_column(BigInteger)
@@ -85,13 +85,13 @@ class Trade(Base):
     created: Mapped[datetime]=mapped_column(DateTime,default=lambda:datetime.now(timezone.utc))
 
 class Statement(Base):
-    __tablename__="statements"
+    tablename="statements"
     id: Mapped[int]=mapped_column(primary_key=True)
     player: Mapped[int]=mapped_column(BigInteger)
     text: Mapped[str]=mapped_column(Text)
     created: Mapped[datetime]=mapped_column(DateTime,default=lambda:datetime.now(timezone.utc))
 
-COUNTRIES = """افغانستان|آلبانی|الجزایر|آرژانتین|استرالیا|اتریش|بلژیک|برزیل|بلغارستان|کانادا|شیلی|چین|کلمبیا|کرواسی|کوبا|دانمارک|مصر|فنلاند|فرانسه|آلمان|یونان|هند|اندونزی|ایران|عراق|ایرلند|ایتالیا|ژاپن|قزاقستان|کنیا|کره جنوبی|مکزیک|مراکش|هلند|نیوزیلند|نروژ|پاکستان|پرو|لهستان|پرتغال|رومانی|روسیه|عربستان سعودی|صربستان|سنگاپور|اسپانیا|سوئد|سوئیس|ترکیه|اوکراین|امارات متحده عربی|بریتانیا|ایالات متحده|ونزوئلا|ویتنام|آفریقای جنوبی|مصر|مغولستان|تایلند|مالزی|فیلیپین|چک|اسلواکی|مجارستان|بلاروس|گرجستان|ارمنستان|آذربایجان|قطر|کویت|اردن|لبنان|عمان|بحرین|تونس|لیبی|اتیوپی|نیجریه|غنا|کنیا|تانزانیا|اوگاندا|آنگولا|موزامبیک|زیمبابوه|شیلی|بولیوی|اکوادور|اروگوئه|پاراگوئه|کاستاریکا|پاناما|کوبا|جامائیکا|ایسلند|لوکزامبورگ|اسلوونی|کره شمالی""".split("|")
+COUNTRIES = """افغانستان|آلبانی|الجزایر|آرژانتین|استرالیا|اتریش|بلژیک|برزیل|بلغارستان|کانادا|شیلی|چین|کلمبیا|کرواسی|کوبا|دانمارک|مصر|فنلاند|فرانسه|آلمان|یونان|هند|اندونزی|ایران|عراق|ایرلند|ایتالیا|ژاپن|قزاقستان|کنیا|کره جنوبی|مکزیک|مراکش|هلند|نیوزیلند|نروژ|پاکستان|پرو|لهستان|پرتغال|رومانی|روسیه|عربستان سعودی|صربستان|سنگاپور|اسپانیا|سوئد|سوئیس|ترکیه|اوکراین|امارات متحده عربی|بریتانیا|ایالات متحده|ونزوئلا|ویتنام|آفریقای جنوبی|مصر|مغولستان|تایلند|مالزی|فیلیپین|چک|اسلواکی|مجارستان|بلاروس|گرجستان|ارمنستان|آذربایجان|قطر|کویت|اردن|لبنان|عمان|بحرین|تونس|لیبی|اتیوپی|نیجریه|غنا|کنیا|تانزانیا|اوگاندا|آنگولا|موزامبیک|زیمبابوه|شیلی|بولیوی|اکوادور|اروگوئه|پاراگوئه|کاستاریکا|پاناما|کوبا|جامائیکا|ایسلند|لوکزامبورگ|اسلوونی|کره شمالی|اسرائیل""".split("|")
 
 def fmt(n): return f"{Decimal(n):,.0f}"
 
@@ -141,7 +141,7 @@ async def callbacks(c:CallbackQuery):
         elif d=="army":
             b=InlineKeyboardBuilder()
             for t,x in [("🪖 +100 زمینی","buy:land"),("✈️ +1 هوایی","buy:air"),("🚢 +1 دریایی","buy:navy"),("🛡️ +1 پدافند","buy:def"),("🎯 +1 استراتژیک","buy:strat"),("🛡️ +10 تانک","buy:tank"),("💥 +10 توپخانه","buy:art"),("🚀 +1 موشک","buy:missile"),("☢️ +1 آیتم هسته‌ای","buy:nuke")]:
-                b.button(text=t,callback_data=x)
+b.button(text=t,callback_data=x)
             b.adjust(2)
             await c.message.edit_text("🪖 <b>مدیریت نیروها</b>\nهمه موارد در این پروژه آیتم‌های بازی هستند.",reply_markup=b.as_markup(),parse_mode="HTML")
 
@@ -158,13 +158,21 @@ async def callbacks(c:CallbackQuery):
             await c.message.answer("برای تعیین فرمانده بنویس: /commander نام فرمانده")
 
         elif d=="war":
-            b=InlineKeyboardBuilder(); b.button(text="⚔️ اعلان جنگ",callback_data="چیزی:چیزی"war:declare"); b.button(text="🕊️ صلح",callback_data="war:peace"); b.button(text="🌍 کشورها","countries"); b.adjust(1)
+            b=InlineKeyboardBuilder()
+            b.button(text="⚔️ اعلان جنگ",callback_data="war:declare")
+            b.button(text="🕊️ صلح",callback_data="war:peace")
+            b.button(text="🌍 کشورها",callback_data="countries")
+            b.adjust(1)
             await c.message.edit_text("⚔️ <b>جنگ و دیپلماسی</b>\nبرای هدف از دستور /war استفاده کن.",reply_markup=b.as_markup(),parse_mode="HTML")
 
         elif d=="statement": await c.message.answer("📜 /statement متن بیانیه")
 
         elif d=="alliance":
-            b=InlineKeyboardBuilder(); b.button(text="🤝 ساخت اتحاد",callback_data="ally:create"); b.button(text="💙 اتحاد دوستانه","ally:friendly"); b.button(text="📋 فهرست","ally:list"); b.adjust(1)
+            b=InlineKeyboardBuilder()
+            b.button(text="🤝 ساخت اتحاد",callback_data="ally:create")
+            b.button(text="💙 اتحاد دوستانه",callback_data="ally:friendly")
+            b.button(text="📋 فهرست",callback_data="ally:list")
+            b.adjust(1)
             await c.message.edit_text("🤝 <b>اتحادها</b>",reply_markup=b.as_markup(),parse_mode="HTML")
 
         elif d=="loan": await c.message.answer("🏦 /loan مبلغ — سقف 100,000,000 و سررسید 2 روز")
@@ -278,4 +286,4 @@ async def main():
     print("WORLD WAR BOT ONLINE")
     await dp.start_polling(bot)
 
-if __name__=="__main__": asyncio.run(main())
+if name=="main": asyncio.run(main())
