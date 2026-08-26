@@ -392,7 +392,7 @@ async def statement(m):
     async with Session() as s:
         p = await player(s, m.from_user.id, m.from_user.username)
         s.add(Statement(player=p.tg, text=text))
-await s.commit()
+        await s.commit()
     await m.answer(f"📜 <b>بیانیه {p.country}</b>\n\n{text}", parse_mode="HTML")
 async def commander(m):
     name = m.text.partition(" ")[2].strip()[:100]
