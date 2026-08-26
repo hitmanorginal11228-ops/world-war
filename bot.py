@@ -197,10 +197,10 @@ async def callbacks(c: CallbackQuery):
                 f"🚢 بندر: {p.ports}\n"
                 f"✈️ فرودگاه: {p.airports}\n"
                 f"🏰 پایگاه: {p.bases}\n"
-                f"👑 فرمانده: {p.commander}"
+f"👑 فرمانده: {p.commander}"
             )
             await c.message.edit_text(text, reply_markup=menu(), parse_mode="HTML")
-elif d == "country":
+        elif d == "country":
             text = f"🌍 کشور: <b>{p.country}</b>\n👑 فرمانده: {p.commander}\n💰 {fmt(p.money)}"
             await c.message.edit_text(text, reply_markup=menu(), parse_mode="HTML")
 
@@ -392,7 +392,7 @@ async def statement(m):
     async with Session() as s:
         p = await player(s, m.from_user.id, m.from_user.username)
         s.add(Statement(player=p.tg, text=text))
-        await s.commit()
+await s.commit()
     await m.answer(f"📜 <b>بیانیه {p.country}</b>\n\n{text}", parse_mode="HTML")
 async def commander(m):
     name = m.text.partition(" ")[2].strip()[:100]
